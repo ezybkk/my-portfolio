@@ -1,6 +1,6 @@
-const nodemailer = require('nodemailer');
+const nodemailer = require('nodemailer');  // Change to CommonJS require
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ success: false, message: 'Method Not Allowed' });
     }
