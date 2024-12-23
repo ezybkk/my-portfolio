@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const cors = require('cors');
+const path = require('path'); // For serving static files
 require('dotenv').config();
 
 const app = express();
@@ -12,6 +13,9 @@ const PORT = process.env.PORT || 5000;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
+
+// Serve static files (HTML, CSS, JS, etc.)
+app.use(express.static(path.join(__dirname)));
 
 // Nodemailer Transporter Setup
 const transporter = nodemailer.createTransport({
@@ -49,6 +53,11 @@ app.post('/send-message', (req, res) => {
         console.log('Email sent:', info.response);
         res.status(200).json({ success: true, message: 'Message sent successfully!' });
     });
+});
+
+// Serve the main portfolio HTML file
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Start the server
